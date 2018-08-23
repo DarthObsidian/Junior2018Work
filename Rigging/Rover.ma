@@ -1,6 +1,6 @@
 //Maya ASCII 2018 scene
 //Name: Rover.ma
-//Last modified: Wed, Aug 22, 2018 05:56:51 PM
+//Last modified: Wed, Aug 22, 2018 05:58:10 PM
 //Codeset: 1252
 requires maya "2018";
 currentUnit -l centimeter -a degree -t film;
@@ -13,14 +13,14 @@ fileInfo "license" "student";
 createNode transform -s -n "persp";
 	rename -uid "DACA31D1-4E77-DF28-A881-0CB78CF3576F";
 	setAttr ".v" no;
-	setAttr ".t" -type "double3" -118.29117063353176 156.66582211682029 -379.44233396439392 ;
-	setAttr ".r" -type "double3" 344.661647269718 200.59999999994332 0 ;
+	setAttr ".t" -type "double3" -180.78238556535814 186.06637604455796 -357.49599353911179 ;
+	setAttr ".r" -type "double3" 341.0616472697173 207.39999999994205 0 ;
 createNode camera -s -n "perspShape" -p "persp";
 	rename -uid "E9BBBFD6-4D0B-F895-F31C-1887F9CEA3AF";
 	setAttr -k off ".v" no;
 	setAttr ".fl" 34.999999999999993;
 	setAttr ".ncp" 1;
-	setAttr ".coi" 372.34559222920961;
+	setAttr ".coi" 384.74307001035442;
 	setAttr ".imn" -type "string" "persp";
 	setAttr ".den" -type "string" "persp_depth";
 	setAttr ".man" -type "string" "persp_mask";
@@ -32446,9 +32446,7 @@ createNode joint -n "FrontArm_Jnt_03" -p "FrontArm_Jnt_02";
 	setAttr ".radi" 5;
 createNode transform -n "Controls" -p "Rover1";
 	rename -uid "2A3C9E54-424D-D9F1-E208-96B6D14B38CD";
-createNode transform -n "Deformers" -p "Rover1";
-	rename -uid "30E4539A-4BB6-9CA5-6BF2-919B086D9E37";
-createNode transform -n "Transform_Ctrl_Grp";
+createNode transform -n "Transform_Ctrl_Grp" -p "Controls";
 	rename -uid "A9DB5AFC-45F4-F6C8-DB48-51AB5F4D8255";
 createNode transform -n "Transform_Ctrl" -p "Transform_Ctrl_Grp";
 	rename -uid "99F684DF-417F-8A0B-85AD-A9A3703176C5";
@@ -32603,7 +32601,7 @@ createNode nurbsCurve -n "L_BackLeg_03_CtrlShape" -p "L_BackLeg_03_Ctrl";
 		-6.7101264318368159 6.710126431836815 -1.0790706297230653e-15
 		-9.489551805141808 4.9194004130782523e-16 -7.910999227099739e-32
 		-6.7101264318368159 -6.7101264318368159 1.0790706297230655e-15
-		-9.5057489452271025e-16 -9.4895518051418115 1.526036319312836e-15
+		-9.5057489452271025e-16 -9.4895518051418115 1.5260363193128358e-15
 		6.7101264318368159 -6.710126431836815 1.0790706297230653e-15
 		9.489551805141808 -1.2940868291168547e-15 2.0810503405510329e-31
 		6.7101264318368159 6.7101264318368168 -1.0790706297230655e-15
@@ -32682,7 +32680,7 @@ createNode nurbsCurve -n "R_FrontLeg_02_CtrlShape" -p "R_FrontLeg_02_Ctrl";
 		-6.7101264318368159 6.710126431836815 -1.0790706297230653e-15
 		-9.489551805141808 4.9194004130782523e-16 -7.910999227099739e-32
 		-6.7101264318368159 -6.7101264318368159 1.0790706297230655e-15
-		-9.5057489452271025e-16 -9.4895518051418115 1.526036319312836e-15
+		-9.5057489452271025e-16 -9.4895518051418115 1.5260363193128358e-15
 		6.7101264318368159 -6.710126431836815 1.0790706297230653e-15
 		9.489551805141808 -1.2940868291168547e-15 2.0810503405510329e-31
 		6.7101264318368159 6.7101264318368168 -1.0790706297230655e-15
@@ -32760,7 +32758,7 @@ createNode nurbsCurve -n "R_BackLeg_03_CtrlShape" -p "R_BackLeg_03_Ctrl";
 		-6.7101264318368159 6.710126431836815 -1.0790706297230653e-15
 		-9.489551805141808 4.9194004130782523e-16 -7.910999227099739e-32
 		-6.7101264318368159 -6.7101264318368159 1.0790706297230655e-15
-		-9.5057489452271025e-16 -9.4895518051418115 1.526036319312836e-15
+		-9.5057489452271025e-16 -9.4895518051418115 1.5260363193128358e-15
 		6.7101264318368159 -6.710126431836815 1.0790706297230653e-15
 		9.489551805141808 -1.2940868291168547e-15 2.0810503405510329e-31
 		6.7101264318368159 6.7101264318368168 -1.0790706297230655e-15
@@ -33008,20 +33006,22 @@ createNode nurbsCurve -n "FrontArm_03_CtrlShape" -p "FrontArm_03_Ctrl";
 		3.3978466299036498e-16 5.5491046598404754 -8.9236408889156368e-16
 		-3.9238095344870714 3.9238095344870705 -6.3099669854257968e-16
 		;
+createNode transform -n "Deformers" -p "Rover1";
+	rename -uid "30E4539A-4BB6-9CA5-6BF2-919B086D9E37";
 createNode lightLinker -s -n "lightLinker1";
-	rename -uid "B8FA48C8-4C63-E192-3EB7-3D873B9F2E04";
+	rename -uid "4AD830E1-4725-D6AA-258F-1C802C1F032A";
 	setAttr -s 2 ".lnk";
 	setAttr -s 2 ".slnk";
 createNode shapeEditorManager -n "shapeEditorManager";
-	rename -uid "63EC7D4E-4A72-C85A-4BD5-9F86AFE7BA31";
+	rename -uid "02D18859-4967-5F33-F4A2-0DB66D562FDF";
 createNode poseInterpolatorManager -n "poseInterpolatorManager";
-	rename -uid "A6E58DAF-4A5B-B58A-D847-F5B785FD2089";
+	rename -uid "ABE0941A-4773-F72A-65D3-E7A0DF62B123";
 createNode displayLayerManager -n "layerManager";
-	rename -uid "BEE4EBFF-464F-F2B7-72ED-A5AEC31AAA1E";
+	rename -uid "3C64D56D-4A7B-BE52-6D43-C5951FAF12C5";
 createNode displayLayer -n "defaultLayer";
 	rename -uid "1E0E5426-4719-2F1F-BB32-E78DB6B7AB27";
 createNode renderLayerManager -n "renderLayerManager";
-	rename -uid "D68CA25A-4990-4269-6280-9B9ADD69982A";
+	rename -uid "766FBF9E-422E-EB6D-B59C-9DA96D816F5F";
 createNode renderLayer -n "defaultRenderLayer";
 	rename -uid "07788AE1-4CA1-0B3D-DD49-8388CC6ED0F2";
 	setAttr ".g" yes;
