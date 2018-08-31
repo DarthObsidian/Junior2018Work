@@ -1,0 +1,23 @@
+global proc dupeAndMove(int $numDupe, int $min, int $max)
+{
+    polyCube -w 1 -h 1 -d 1 -sx 1 -sy 1 -sz 1 -ax 0 1 0 -cuv 4 -ch 1;
+    for($i = 0; $i < $numDupe; $i++)
+    {
+        duplicate -rr;
+    }
+    
+    select -all;
+    string $selections[] = `ls -selection`;
+
+    for($objects in $selections)
+    {
+        int $placementX = rand($min, $max);
+        int $placementY = rand($min, $max);
+        int $placementZ = rand($min, $max);
+        
+        select $objects;
+        move -r $placementX $placementY $placementZ;
+    }   
+}
+
+dupeAndMove(5, -5, 5);
