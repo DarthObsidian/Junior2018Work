@@ -15,9 +15,11 @@ global proc dupeAndMove(int $numDupe, int $min, int $max)
         int $placementY = rand($min, $max);
         int $placementZ = rand($min, $max);
         
+        vector $pos = <<$placementX, $placementY, $placementZ>>;
+        
         select $objects;
-        move -r $placementX $placementY $placementZ;
+        move -r ($pos.x) ($pos.y) ($pos.z);
     }   
 }
 
-dupeAndMove(5, -5, 5);
+dupeAndMove(20, -5, 5);
