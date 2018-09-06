@@ -11,15 +11,10 @@ global proc DupeAndMove(int $numDupe, int $xRange, int $yRange, int $zRange)
 
     for($objects in $selections)
     {
-        int $placementX = rand(-$xRange, $xRange);
-        int $placementY = rand(-$yRange, $yRange);
-        int $placementZ = rand(-$zRange, $zRange);
-        
-        vector $pos = <<$placementX, $placementY, $placementZ>>;
-        
-        select $objects;
-        move -r ($pos.x) ($pos.y) ($pos.z);
+        vector $pos = <<rand(-$xRange, $xRange), rand(-$yRange, $yRange), rand(-$zRange, $zRange)>>;        
+        move -r ($pos.x) ($pos.y) ($pos.z) $objects;
     }
+    select $currentObj[0];
 }
 
 DupeAndMove(20, 5, 5, 5);
