@@ -1,0 +1,41 @@
+
+global proc string Rename(string $input, int $num)
+{
+    string $splitInput[];
+    tokenize $input "_" $splitInput;
+    
+    if(size($splitInput[1]) > 1)
+    {
+        if($num < 10)
+        {
+            $splitInput[1] = "0" + $num;
+        }
+        else
+        {
+            $splitInput[1] = $num;
+        }
+    }
+    else
+    {
+        $splitInput[1] = $num;    
+    }
+    
+    string $newName = $splitInput[0] + "_" + $splitInput[1] + "_" + $splitInput[2];
+    return $newName;
+}
+
+global proc Selection(string $name)
+{
+    string $selections[] = `ls -selection`;
+    int $number = 1;
+    for($objects in $selections)
+    {
+        string $newName = Rename($name, $number);
+        rename $objects $newName;
+        $number++;
+    }    
+}
+
+{
+    Selection("Arm_##_Jnt");
+}
