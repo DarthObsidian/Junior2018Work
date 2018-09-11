@@ -1,26 +1,25 @@
-
 global proc string Rename(string $input, int $num)
 {
     string $splitInput[];
     tokenize $input "_" $splitInput;
     
-    if(size($splitInput[1]) > 1)
+    if(size($splitInput[2]) > 1)
     {
         if($num < 10)
         {
-            $splitInput[1] = "0" + $num;
+            $splitInput[2] = "0" + $num;
         }
         else
         {
-            $splitInput[1] = $num;
+            $splitInput[2] = $num;
         }
     }
     else
     {
-        $splitInput[1] = $num;    
+        $splitInput[2] = $num;
     }
     
-    string $newName = $splitInput[0] + "_" + $splitInput[1] + "_" + $splitInput[2];
+    string $newName = $splitInput[0] + "_" + $splitInput[1] + "_" + $splitInput[2] + "_" + $splitInput[3];
     return $newName;
 }
 
@@ -36,6 +35,29 @@ global proc Selection(string $name)
     }    
 }
 
+proc Begin()
 {
-    Selection("Arm_##_Jnt");
+    string $prefix = `optionMenu -query -v Prefix`;
+    string $suffix = `optionMenu -query -v Suffix`;
+    string $padding = `optionMenu -query -v Padding`;
+    string $objectName = `textFieldGrp -query -text Name`;
+    Selection($prefix + "_"+ $objectName + "_" + $padding + "_" + $suffix);
+}
+
+{
+    window -width 200 -height 200 -title "Rename Objects";
+        columnLayout;
+            textFieldGrp -columnAlign 1 "left" -label "Name: " Name;
+            optionMenu -width 100 -label "Prefix" Prefix;
+                menuItem -label "R";
+                menuItem -label "L";
+            optionMenu -width 100 -label "Suffix" Suffix;
+                menuItem -label "Jnt";
+                menuItem -label "Ctrl";
+                menuItem -label "Grp";
+            optionMenu -width 100 -label "Padding" Padding;
+                menuItem -label "#";
+                menuItem -label "##";
+            button -label "Rename" -command "Begin";
+    showWindow;   
 }
