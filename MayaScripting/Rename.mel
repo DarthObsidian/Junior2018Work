@@ -3,6 +3,7 @@ global proc string Rename(string $input, int $num)
     string $splitInput[];
     tokenize $input "_" $splitInput;
     
+    //determines how much padding to put
     if(size($splitInput[2]) > 1)
     {
         if($num < 10)
@@ -19,8 +20,23 @@ global proc string Rename(string $input, int $num)
         $splitInput[2] = $num;
     }
     
-    string $newName = $splitInput[0] + "_" + $splitInput[1] + "_" + $splitInput[2] + "_" + $splitInput[3];
-    return $newName;
+    //checks if there should be pre-fixes or suffixes then returns the result
+    if($splitInput[0] == "none" && $splitInput[3] == "none")
+    {
+        return $splitInput[1] + "_" + $splitInput[2];
+    }
+    else if($splitInput[0] == "none" && $splitInput[3] != "none")
+    {
+        return $splitInput[1] + "_" + $splitInput[2] + "_" + $splitInput[3];
+    }
+    else if($splitInput[0] != "none" && $splitInput[3] == "none")
+    {
+        return $splitInput[0] + "_" + $splitInput[1] + "_" + $splitInput[2];
+    }
+    else
+    {
+        return $splitInput[0] + "_" + $splitInput[1] + "_" + $splitInput[2] + "_" + $splitInput[3];
+    }
 }
 
 global proc Selection(string $name)
@@ -41,7 +57,7 @@ proc Begin()
     string $suffix = `optionMenu -query -v Suffix`;
     string $padding = `optionMenu -query -v Padding`;
     string $objectName = `textFieldGrp -query -text Name`;
-    Selection($prefix + "_"+ $objectName + "_" + $padding + "_" + $suffix);
+    Selection($prefix + "_" + $objectName + "_" + $padding + "_" + $suffix);
 }
 
 {
@@ -51,10 +67,12 @@ proc Begin()
             optionMenu -width 100 -label "Prefix" Prefix;
                 menuItem -label "R";
                 menuItem -label "L";
+                menuItem -label "none";
             optionMenu -width 100 -label "Suffix" Suffix;
                 menuItem -label "Jnt";
                 menuItem -label "Ctrl";
                 menuItem -label "Grp";
+                menuItem -label "none";
             optionMenu -width 100 -label "Padding" Padding;
                 menuItem -label "#";
                 menuItem -label "##";
