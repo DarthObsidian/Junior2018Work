@@ -1,51 +1,52 @@
-global proc string Rename(string $input, int $num)
+global proc string Rename(string $prefix, string $objectName, string $padding, string $suffix, int $num)
 {
-    string $splitInput[];
-    tokenize $input "_" $splitInput;
-    
-    //determines how much padding to put
-    if(size($splitInput[2]) > 1)
+    string $temp = $num;
+    if($padding != "none")
     {
-        if($num < 10)
+        int $size;
+        if($num > 9 && $num < 100)
         {
-            $splitInput[2] = "0" + $num;
+            $size = size($padding) - 1;
+        }
+        else if($num > 99)
+        {
+            $size = size($padding) - 2;
         }
         else
         {
-            $splitInput[2] = $num;
+            $size = size($padding);
+        }
+        for($i = 0; $i < $size; $i++)
+        {
+            $temp = "0" + $temp;
         }
     }
-    else
-    {
-        $splitInput[2] = $num;
-    }
     
-    //checks if there should be pre-fixes or suffixes then returns the result
-    if($splitInput[0] == "none" && $splitInput[3] == "none")
+    if($prefix == "none" && $suffix == "none")
     {
-        return $splitInput[1] + "_" + $splitInput[2];
+        return $objectName + "_" + $temp;
     }
-    else if($splitInput[0] == "none" && $splitInput[3] != "none")
+    else if($prefix == "none" && $suffix != "none")
     {
-        return $splitInput[1] + "_" + $splitInput[2] + "_" + $splitInput[3];
+        return $objectName + "_" + $temp + "_" + $suffix;
     }
-    else if($splitInput[0] != "none" && $splitInput[3] == "none")
+    else if($prefix != "none" && $suffix == "none")
     {
-        return $splitInput[0] + "_" + $splitInput[1] + "_" + $splitInput[2];
+        return $prefix + "_" + $objectName + "_" + $temp;
     }
     else
     {
-        return $splitInput[0] + "_" + $splitInput[1] + "_" + $splitInput[2] + "_" + $splitInput[3];
+        return $prefix + "_" + $objectName + "_" + $temp + "_" + $suffix;
     }
 }
 
-global proc Selection(string $name)
+global proc Selection(string $prefix, string $objectName, string $padding, string $suffix)
 {
     string $selections[] = `ls -selection`;
     int $number = 1;
     for($objects in $selections)
     {
-        string $newName = Rename($name, $number);
+        string $newName = Rename($prefix, $objectName, $padding, $suffix, $number);
         rename $objects $newName;
         $number++;
     }    
@@ -57,7 +58,7 @@ proc Begin()
     string $suffix = `optionMenu -query -v Suffix`;
     string $padding = `optionMenu -query -v Padding`;
     string $objectName = `textFieldGrp -query -text Name`;
-    Selection($prefix + "_" + $objectName + "_" + $padding + "_" + $suffix);
+    Selection($prefix, $objectName, $padding, $suffix);
 }
 
 {
@@ -76,6 +77,7 @@ proc Begin()
             optionMenu -width 100 -label "Padding" Padding;
                 menuItem -label "#";
                 menuItem -label "##";
+                menuItem -label "none";
             button -label "Rename" -command "Begin";
     showWindow;   
 }
