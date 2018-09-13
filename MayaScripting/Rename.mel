@@ -3,19 +3,8 @@ global proc string Rename(string $prefix, string $objectName, string $padding, s
     string $temp = $num;
     if($padding != "none")
     {
-        int $size;
-        if($num > 9 && $num < 100)
-        {
-            $size = size($padding) - 1;
-        }
-        else if($num > 99)
-        {
-            $size = size($padding) - 2;
-        }
-        else
-        {
-            $size = size($padding);
-        }
+        int $size = size($padding) - (size($temp) - 1);
+
         for($i = 0; $i < $size; $i++)
         {
             $temp = "0" + $temp;
