@@ -63,6 +63,7 @@ proc Begin()
                     menuItem -label "Jnt";
                     menuItem -label "Ctrl";
                     menuItem -label "Grp";
+                    menuItem -label "Ctrl_Grp";
                     menuItem -label "none";
                 optionMenu -width 100 -label "Padding" Padding;
                     menuItem -label "#";
