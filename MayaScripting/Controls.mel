@@ -1,0 +1,34 @@
+global proc CreateControl()
+{
+    string $sels[] = `ls -sl`;
+    
+    if(size($sels) >= 1)
+    {
+        for($selection in $sels)
+        {
+            circle -c 0 0 0 -nr 0 1 0 -sw 360 -r 1 -d 3 -ut 0 -tol 0.01 -s 8 -ch 1 -name "ctrl";
+            string $newName = $selection + "_Ctrl";
+            rename ctrl $newName;
+            vector $pos = `xform -query -ws -absolute -translation $selection`;
+            xform -translation ($pos.x) ($pos.y) ($pos.z) -ws -a $newName; 
+        }
+    }
+    else
+    {
+        circle -c 0 0 0 -nr 0 1 0 -sw 360 -r 1 -d 3 -ut 0 -tol 0.01 -s 8 -ch 1 -name "ctrl"; 
+        objectMoveCommand;          
+    }
+    select -cl;
+}
+
+global proc ChangeColor(string $ctrlName, vector $color)
+{
+    string $fullName = $ctrlName + "Shape.overrideEnabled";
+    setAttr $fullName 1;
+    color -rgbColor ($color.x) ($color.y) ($color.z) $ctrlName;
+}
+
+{
+    CreateControl();
+    ChangeColor("ctrl", <<255,0,0>>);
+}
