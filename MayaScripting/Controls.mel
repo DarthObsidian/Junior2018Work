@@ -51,7 +51,29 @@ global proc string CreateCtrlShape(string $shape)
     return $ctrl[0];
 }
 
-global proc CreateControl(int $ctrlColor, string $shape)
+global proc Constrain(string $constrainer, string $constrainee, int $doConstraint, int $scale, int $separate)
+{
+    if($doConstraint)
+    {
+        select -r $constrainer;
+        select -tgl $constrainee;
+        if($scale)
+        {
+            scaleConstraint -offset 1 1 1 -weight 1;
+        }
+        if($separate)
+        {
+            parentConstraint -mo -skipRotate x -skipRotate y -skipRotate z -weight 1;
+            parentConstraint -mo -skipTranslate x -skipTranslate y -skipTranslate z -weight 1;
+        }
+        else
+        {
+            parentConstraint -mo -weight 1;
+        }
+    }
+}
+
+global proc CreateControl(int $ctrlColor, string $shape, int $doConstraint, int $scale, int $separate)
 {
     string $sels[] = `ls -sl`;
     
@@ -68,6 +90,7 @@ global proc CreateControl(int $ctrlColor, string $shape)
             xform -rotation ($rot.x) ($rot.y) ($rot.z) -ws -a $obj;
             
             ColorControls($obj, $ctrlColor);
+            Constrain($obj, $selection, $doConstraint, $scale, $separate);
         }
     }
     else
@@ -79,16 +102,33 @@ global proc CreateControl(int $ctrlColor, string $shape)
     select -cl;
 }
 
-proc Start()
+proc Begin()
 {
     string $shape = `optionMenu -query -v Shape`;
     int $index = `colorIndexSliderGrp -query -v Color` - 1;
-    CreateControl($index, $shape);
+    int $constrain = `checkBox -query -v doConstrain`;
+    int $scale = `checkBox -query -v Scale`;
+    int $separate = `checkBox -query -v Separate`;
+    CreateControl($index, $shape, $constrain, $scale, $separate);
+}
+
+proc Enable()
+{
+    if(!`checkBox -query -v doConstrain`)
+    {    
+        checkBox -e -enable false -visible false Scale;
+        checkBox -e -enable false -visible false Separate;
+    }
+    else
+    {
+        checkBox -e -enable true -visible true Scale;
+        checkBox -e -enable true -visible true Separate;
+    }
 }
 
 {
-    window -width 300 -height 100 -title "Create Controls";
-        columnLayout -adjustableColumn true -rowSpacing 10 -height 100;
+    window -width 350 -height 175 -title "Create Controls";
+        columnLayout -adjustableColumn true -rowSpacing 10 -height 175;
             columnLayout -adjustableColumn true -columnAttach "both" 25 -rowSpacing 5;
                 optionMenu -width 100 -label "Control Shape" Shape;
                     menuItem -label "circle";
@@ -96,9 +136,14 @@ proc Start()
                     menuItem -label "flower";
                     menuItem -label "diamond";
                 colorIndexSliderGrp -maxValue 32 -minValue 1 Color;
+                checkBox -label "Constrain" -cc "Enable" doConstrain;
+                columnLayout -adjustableColumn true -columnAttach "both" 50 -rowSpacing 5;
+                    checkBox -label "Scale" -enable false -visible false Scale;
+                    checkBox -label "Separate Translate and Rotate" -enable false -visible false Separate;
+                setParent..;
             setParent..;
             rowLayout -adjustableColumn true;
                 rowLayout -adjustableColumn true -columnAttach1 "both" -columnOffset1 100;
-                button -width 100 -height 25 -label "Create" -command "Start";
+                button -width 100 -height 25 -label "Create" -command "Begin";
     showWindow;   
 }
