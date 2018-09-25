@@ -1,34 +1,84 @@
-global proc CreateControl()
+global proc ColorControls(string $ctrlName, int $color)
+{
+    string $shapes[] = `listRelatives -shapes $ctrlName`;
+    for($shape in $shapes)
+    {
+        if(`nodeType $shape` == "nurbsCurve")
+        {
+            setAttr ($shape + ".overrideEnabled") 1;
+            setAttr ($shape + ".overrideColor") $color;
+        }
+        else
+        {
+            warning("Selected object is not a curve");
+        }
+    }
+}
+
+global proc string CreateCtrlShape(string $shape)
+{
+    string $ctrl[] = `circle -c 0 0 0 -nr 0 1 0 -sw 360 -r 1 -d 3 -ut 0 -tol 0.01 -s 8 -ch 1`;
+    objectMoveCommand;
+    if($shape == "circle"){}
+    else if($shape == "flower")
+    {
+        select -r ($ctrl[0] + ".cv[0]");
+        select -tgl ($ctrl[0] + ".cv[2]");
+        select -tgl ($ctrl[0] + ".cv[4]");
+        select -tgl ($ctrl[0] + ".cv[6]");
+        scale -r -p 0cm 0cm 0cm -0.35 -0.35 -0.35;
+    }
+    else if($shape == "square")
+    {
+        select -r ($ctrl[0] + ".cv[0]");
+        select -tgl ($ctrl[0] + ".cv[2]");
+        select -tgl ($ctrl[0] + ".cv[4]");
+        select -tgl ($ctrl[0] + ".cv[6]");
+        scale -r -p 0cm 0cm 0cm 1.5 1.5 1.5;
+    }
+    else if($shape == "diamond")
+    {
+        select -r ($ctrl[0] + ".cv[0]");
+        select -tgl ($ctrl[0] + ".cv[2]");
+        select -tgl ($ctrl[0] + ".cv[4]");
+        select -tgl ($ctrl[0] + ".cv[6]");
+        scale -r -p 0cm 0cm 0cm 0.3 0.3 0.3;        
+    }
+    else
+    {
+        warning("Invalid shape, defaulting to circle");
+    }
+    return $ctrl[0];
+}
+
+global proc CreateControl(int $ctrlColor, string $shape)
 {
     string $sels[] = `ls -sl`;
     
-    if(size($sels) >= 1)
+    if(size($sels) > 0)
     {
         for($selection in $sels)
         {
-            circle -c 0 0 0 -nr 0 1 0 -sw 360 -r 1 -d 3 -ut 0 -tol 0.01 -s 8 -ch 1 -name "ctrl";
+            string $ctrl = CreateCtrlShape($shape);
             string $newName = $selection + "_Ctrl";
-            rename ctrl $newName;
+            string $obj = `rename $ctrl $newName`;
             vector $pos = `xform -query -ws -absolute -translation $selection`;
-            xform -translation ($pos.x) ($pos.y) ($pos.z) -ws -a $newName; 
+            vector $rot = `xform -query -ws -absolute -rotation $selection`;
+            xform -translation ($pos.x) ($pos.y) ($pos.z) -ws -a $obj;
+            xform -rotation ($rot.x) ($rot.y) ($rot.z) -ws -a $obj;
+            
+            ColorControls($obj, $ctrlColor);
         }
     }
     else
     {
-        circle -c 0 0 0 -nr 0 1 0 -sw 360 -r 1 -d 3 -ut 0 -tol 0.01 -s 8 -ch 1 -name "ctrl"; 
-        objectMoveCommand;          
+        string $ctrl = CreateCtrlShape($shape);
+        string $obj = `rename $ctrl "ctrl"`;
+        ColorControls($obj, $ctrlColor);
     }
     select -cl;
 }
 
-global proc ChangeColor(string $ctrlName, vector $color)
 {
-    string $fullName = $ctrlName + "Shape.overrideEnabled";
-    setAttr $fullName 1;
-    color -rgbColor ($color.x) ($color.y) ($color.z) $ctrlName;
-}
-
-{
-    CreateControl();
-    ChangeColor("ctrl", <<255,0,0>>);
+    CreateControl(13, "circle");
 }
