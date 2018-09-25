@@ -79,6 +79,26 @@ global proc CreateControl(int $ctrlColor, string $shape)
     select -cl;
 }
 
+proc Begin()
 {
-    CreateControl(13, "circle");
+    string $shape = `optionMenu -query -v Shape`;
+    int $index = `colorIndexSliderGrp -query -v Color` - 1;
+    CreateControl($index, $shape);
+}
+
+{
+    window -width 300 -height 100 -title "Create Controls";
+        columnLayout -adjustableColumn true -rowSpacing 10 -height 100;
+            columnLayout -adjustableColumn true -columnAttach "both" 25 -rowSpacing 5;
+                optionMenu -width 100 -label "Control Shape" Shape;
+                    menuItem -label "circle";
+                    menuItem -label "square";
+                    menuItem -label "flower";
+                    menuItem -label "diamond";
+                colorIndexSliderGrp -maxValue 32 -minValue 1 Color;
+            setParent..;
+            rowLayout -adjustableColumn true;
+                rowLayout -adjustableColumn true -columnAttach1 "both" -columnOffset1 100;
+                button -width 100 -height 25 -label "Create" -command "Begin";
+    showWindow;   
 }
