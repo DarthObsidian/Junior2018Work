@@ -60,6 +60,7 @@ proc Begin()
                     menuItem -label "L";
                     menuItem -label "none";
                 optionMenu -width 100 -label "Suffix" Suffix;
+                    menuItem -label "Geo";
                     menuItem -label "Jnt";
                     menuItem -label "Ctrl";
                     menuItem -label "Grp";
