@@ -1,6 +1,7 @@
 global proc ColorControls(string $ctrlName, int $color)
 {
-    string $shapes[] = `listRelatives -shapes $ctrlName`;
+    string $shapes[] = `listRelatives -shapes -path $ctrlName`;
+    print($shapes);
     for($shape in $shapes)
     {
         if(`nodeType $shape` == "nurbsCurve")
@@ -82,14 +83,11 @@ global proc CreateControl(int $ctrlColor, string $shape, int $doConstraint, int 
         for($selection in $sels)
         {
             string $ctrl = CreateCtrlShape($shape);
-            string $newName = $selection + "_Ctrl";
-            string $obj = `rename $ctrl $newName`;
-            vector $pos = `xform -query -ws -absolute -translation $selection`;
-            vector $rot = `xform -query -ws -absolute -rotation $selection`;
-            xform -translation ($pos.x) ($pos.y) ($pos.z) -ws -a $obj;
-            xform -rotation ($rot.x) ($rot.y) ($rot.z) -ws -a $obj;
-            
+            string $obj = `rename $ctrl ($selection + "_Ctrl")`;
             ColorControls($obj, $ctrlColor);
+            string $grp = `group -world -name ($obj + "_Grp") $obj`;
+            
+            matchTransform $grp $selection;
             Constrain($obj, $selection, $doConstraint, $scale, $separate);
         }
     }
@@ -98,6 +96,7 @@ global proc CreateControl(int $ctrlColor, string $shape, int $doConstraint, int 
         string $ctrl = CreateCtrlShape($shape);
         string $obj = `rename $ctrl "ctrl"`;
         ColorControls($obj, $ctrlColor);
+        group -world -name ($obj + "_Grp") $obj;        
     }
     select -cl;
 }
