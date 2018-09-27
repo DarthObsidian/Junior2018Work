@@ -1,6 +1,6 @@
 global proc ColorControls(string $ctrlName, int $color)
 {
-    string $shapes[] = `listRelatives -shapes -path $ctrlName`;
+    string $shapes[] = `listRelatives -shapes $ctrlName`;
     print($shapes);
     for($shape in $shapes)
     {
@@ -83,8 +83,9 @@ global proc CreateControl(int $ctrlColor, string $shape, int $doConstraint, int 
         for($selection in $sels)
         {
             string $ctrl = CreateCtrlShape($shape);
+            ColorControls($ctrl, $ctrlColor);
+            
             string $obj = `rename $ctrl ($selection + "_Ctrl")`;
-            ColorControls($obj, $ctrlColor);
             string $grp = `group -world -name ($obj + "_Grp") $obj`;
             
             matchTransform $grp $selection;
@@ -94,8 +95,9 @@ global proc CreateControl(int $ctrlColor, string $shape, int $doConstraint, int 
     else
     {
         string $ctrl = CreateCtrlShape($shape);
+        ColorControls($ctrl, $ctrlColor);
+        
         string $obj = `rename $ctrl "ctrl"`;
-        ColorControls($obj, $ctrlColor);
         group -world -name ($obj + "_Grp") $obj;        
     }
     select -cl;
