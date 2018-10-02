@@ -123,22 +123,25 @@ proc Enable()
 }
 
 {
-    window -width 350 -height 175 -title "Create Controls";
-        columnLayout -adjustableColumn true -rowSpacing 10 -height 175;
-            columnLayout -adjustableColumn true -columnAttach "both" 25 -rowSpacing 5;
-                optionMenu -width 100 -label "Control Shape" Shape;
+    string $window = "ControlsWindow";
+    if(`window -exists $window`)
+    {
+        deleteUI $window;
+    }
+    $window = `window -width 350 -height 175 -title "Create Controls" $window`;
+        string $mainLayout = `columnLayout -adjustableColumn true -rowSpacing 10 -height 175`;
+            string $column = `columnLayout -adjustableColumn true -columnAttach "both" 25 -rowSpacing 5 -parent $mainLayout`;
+                optionMenu -width 100 -label "Control Shape" -parent $column Shape;
                     menuItem -label "circle";
                     menuItem -label "square";
                     menuItem -label "flower";
                     menuItem -label "diamond";
-                colorIndexSliderGrp -maxValue 32 -minValue 1 Color;
-                checkBox -label "Constrain" -cc "Enable" doConstrain;
-                columnLayout -adjustableColumn true -columnAttach "both" 50 -rowSpacing 5;
-                    checkBox -label "Scale" -enable false -visible false Scale;
-                    checkBox -label "Separate Translate and Rotate" -enable false -visible false Separate;
-                setParent..;
-            setParent..;
-            rowLayout -adjustableColumn true -columnAttach1 "both" -columnOffset1 100;
-                button -width 100 -height 25 -label "Create" -command "Begin";
-    showWindow;   
+                colorIndexSliderGrp -maxValue 32 -minValue 1 -parent $column Color;
+                checkBox -label "Constrain" -cc "Enable" -parent $column doConstrain;
+                string $checkColumn = `columnLayout -adjustableColumn true -columnAttach "both" 50 -rowSpacing 5 -parent $column`;
+                    checkBox -label "Scale" -enable false -visible false -parent $checkColumn Scale;
+                    checkBox -label "Separate Translate and Rotate" -enable false -visible false -parent $checkColumn Separate;
+            string $row = `rowLayout -adjustableColumn true -columnAttach1 "both" -columnOffset1 100 -parent $mainLayout`;
+                button -width 100 -height 25 -label "Create" -command "Begin" -parent $row;
+    showWindow $window;   
 }

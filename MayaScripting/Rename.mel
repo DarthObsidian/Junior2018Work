@@ -51,28 +51,32 @@ proc Begin()
 }
 
 {
-    window -width 300 -height 150 -title "Rename Objects";
-        columnLayout -adjustableColumn true -rowSpacing 10 -height 150;
-            columnLayout -adjustableColumn true -columnAttach "both" 25 -rowSpacing 5;
-                textFieldGrp -adjustableColumn true -columnAlign 1 "left" -columnWidth 2 100 -label "Name: " Name;
-                optionMenu -width 100 -label "Prefix" Prefix;
+    string $window = "RenameWindow";
+    if(`window -exists $window`)
+    {
+        deleteUI $window;
+    }
+    $window = `window -width 300 -height 150 -title "Rename Objects" $window`;
+        string $mainLayout = `columnLayout -adjustableColumn true -rowSpacing 10 -height 150 -parent $window`;
+            string $column = `columnLayout -adjustableColumn true -columnAttach "both" 25 -rowSpacing 5 -parent $mainLayout`;
+                textFieldGrp -adjustableColumn true -columnAlign 1 "left" -columnWidth 2 100 -label "Name: " -parent $column Name;
+                optionMenu -width 100 -label "Prefix" -parent $column Prefix;
                     menuItem -label "R";
                     menuItem -label "L";
                     menuItem -label "none";
-                optionMenu -width 100 -label "Suffix" Suffix;
+                optionMenu -width 100 -label "Suffix" -parent $column Suffix;
                     menuItem -label "Geo";
                     menuItem -label "Jnt";
                     menuItem -label "Ctrl";
                     menuItem -label "Grp";
                     menuItem -label "Ctrl_Grp";
                     menuItem -label "none";
-                optionMenu -width 100 -label "Padding" Padding;
+                optionMenu -width 100 -label "Padding" -parent $column Padding;
                     menuItem -label "#";
                     menuItem -label "##";
                     menuItem -label "none";
-            setParent..;
-            rowLayout -adjustableColumn true;
-                rowLayout -adjustableColumn true -columnAttach1 "both" -columnOffset1 100;
-                button -width 100 -height 25 -label "Rename" -command "Begin";
-    showWindow;   
+            string $row1 = `rowLayout -adjustableColumn true -parent $mainLayout`;
+                string $row2 = `rowLayout -adjustableColumn true -columnAttach1 "both" -columnOffset1 100 -parent $row1`;
+                button -width 100 -height 25 -label "Rename" -command "Begin"- parent $row2;
+    showWindow $window;   
 }
