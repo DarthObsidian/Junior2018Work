@@ -1,0 +1,15 @@
+global proc GenerateUI()
+{   
+    string $mainWindow = "RandomPlacementWindow";
+    if(`window -exists $mainWindow`)
+    {
+        deleteUI $mainWindow;
+    }
+
+    $mainWindow = `window -title "Random Placement Generator" $mainWindow`;
+        string $mainColumn = `columnLayout -adjustableColumn true -columnAttach "both" 50 -height 100 -rowSpacing 5`;
+            string $myIntGrp = `intFieldGrp -columnWidth2 98 100 -label "Num Duplicates: " -parent $mainColumn`;
+            string $myFloatGrp = `floatFieldGrp -columnWidth4 50 100 100 100 -label "Range: " -numberOfFields 3 -parent $mainColumn`;
+            string $myButton = `button -label "Generate" -parent $mainColumn`;
+    showWindow $mainWindow;
+}
