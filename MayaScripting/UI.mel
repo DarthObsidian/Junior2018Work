@@ -1,3 +1,41 @@
+global proc vector GetFloatGrpValue(string $floatGrpName)
+{
+    vector $value = `floatFieldGrp -q -v $floatGrpName`;
+    return $value;
+}
+
+global proc int[] GetIntGrpValue(string $intGrpName)
+{
+    int $value[] = `intFieldGrp -q -v $intGrpName`;
+    return $value;
+}
+
+global proc string GetOptionMenuValue(string $optionMnuName)
+{
+    string $value = `optionMenu -q -v $optionMnuName`;
+    return $value;
+}
+
+global proc int GetCheckBoxValue(string $checkBoxName)
+{
+    int $value = `checkBox -q -v $checkBoxName`;
+    return $value;
+}
+
+global proc string GetTextGrpValue(string $textGrpName)
+{
+    string $value = `textFieldGrp -q -text $textGrpName`;
+    return $value;
+}
+
+global proc GetDupeMove(string $numDupeName, string $minFloatName, string $maxFloatName)
+{
+    int[] $duplicates = GetIntGrpValue($numDupeName);
+    vector $min = GetFloatGrpValue($minFloatName);
+    vector $max = GetFloatGrpValue($maxFloatName);
+    print($duplicates[0] + " " + $min + " " + $max);
+}
+
 global proc GenerateUI()
 {   
     string $mainWindow = "RandomPlacementWindow";
@@ -7,10 +45,11 @@ global proc GenerateUI()
     }
 
     $mainWindow = `window -title "Random Placement Generator" $mainWindow`;
-        string $mainColumn = `columnLayout -adjustableColumn true -columnAttach "both" 50 -height 100 -rowSpacing 5`;
-            string $myIntGrp = `intFieldGrp -columnWidth2 98 100 -label "Num Duplicates: " -parent $mainColumn`;
-            string $myFloatGrp = `floatFieldGrp -columnWidth4 50 100 100 100 -label "Range: " -numberOfFields 3 -parent $mainColumn`;
-            string $myButton = `button -label "Generate" -parent $mainColumn`;
+        string $mainColumn = `columnLayout -adjustableColumn true -columnAttach "both" 50 -height 125 -rowSpacing 5`;
+            string $myIntGrp = `intFieldGrp -columnWidth2 98 75 -label "Num Duplicates: " -parent $mainColumn`;
+            string $minFloatGrp = `floatFieldGrp -columnWidth4 75 75 75 75 -label "Min Range: " -numberOfFields 3 -parent $mainColumn`;
+            string $maxFloatGrp = `floatFieldGrp -columnWidth4 75 75 75 75 -label "Max Range: " -numberOfFields 3 -parent $mainColumn`;
+            string $myButton = `button -command ("GetDupeMove(\"" + $myIntGrp + "\", \"" + $minFloatGrp + "\", \"" + $maxFloatGrp + "\")") -label "Generate" -parent $mainColumn`;
     showWindow $mainWindow;
 }
 
@@ -21,29 +60,44 @@ global proc RenameUI()
     {
         deleteUI $window;
     }
-    $window = `window -width 300 -height 150 -title "Rename Objects" $window`;
-        string $mainLayout = `columnLayout -adjustableColumn true -rowSpacing 10 -height 150 -parent $window`;
-            string $column = `columnLayout -adjustableColumn true -columnAttach "both" 25 -rowSpacing 5 -parent $mainLayout`;
-                string $textGrp = `textFieldGrp -adjustableColumn true -columnAlign 1 "left" -columnWidth 2 100 -label "Name: " -parent $column Name`;
-                string $oMenu1 = `optionMenu -width 100 -label "Prefix" -parent $column`;
+    $window = `window -height 150 -title "Rename Objects" -width 300 $window`;
+        string $mainLayout = `columnLayout -adjustableColumn true -height 150 -parent $window -rowSpacing 10`;
+            string $column = `columnLayout -adjustableColumn true -columnAttach "both" 25 -parent $mainLayout -rowSpacing 5`;
+                string $textGrp = `textFieldGrp -adjustableColumn true -columnAlign 1 "left" -columnWidth 2 100 -label "Name: " -parent $column`;
+                string $oMenuPrefix = `optionMenu -label "Prefix" -parent $column -width 100`;
                     menuItem -label "R";
                     menuItem -label "L";
                     menuItem -label "none";
-                string $oMenu2 = `optionMenu -width 100 -label "Suffix" -parent $column`;
+                string $oMenuSuffix = `optionMenu -label "Suffix" -parent $column -width 100`;
                     menuItem -label "Geo";
                     menuItem -label "Jnt";
                     menuItem -label "Ctrl";
                     menuItem -label "Grp";
                     menuItem -label "Ctrl_Grp";
+                    menuItem -label "Loc";
                     menuItem -label "none";
-                string $oMenu3 = `optionMenu -width 100 -label "Padding" -parent $column`;
+                string $oMenuPadding = `optionMenu -label "Padding" -parent $column -width 100`;
                     menuItem -label "#";
                     menuItem -label "##";
                     menuItem -label "none";
             string $row1 = `rowLayout -adjustableColumn true -parent $mainLayout`;
                 string $row2 = `rowLayout -adjustableColumn true -columnAttach1 "both" -columnOffset1 100 -parent $row1`;
-                string $button = `button -width 100 -height 25 -label "Rename" -command "Begin"- parent $row2`;
-    showWindow $window; 
+                string $button = `button -height 25 -label "Rename" -parent $row2 -width 100`;
+    showWindow $window;
+}
+
+proc Enable(string $doConstrain, string $scale, string $separate)
+{
+    if(!`checkBox -query -v $doConstrain`)
+    {    
+        checkBox -e -enable false -visible false $scale;
+        checkBox -e -enable false -visible false $separate;
+    }
+    else
+    {
+        checkBox -e -enable true -visible true $scale;
+        checkBox -e -enable true -visible true $separate;
+    }
 }
 
 global proc CreateControlsUI()
@@ -53,20 +107,25 @@ global proc CreateControlsUI()
     {
         deleteUI $window;
     }
-    $window = `window -width 350 -height 175 -title "Create Controls" $window`;
-        string $mainLayout = `columnLayout -adjustableColumn true -rowSpacing 10 -height 175`;
-            string $column = `columnLayout -adjustableColumn true -columnAttach "both" 25 -rowSpacing 5 -parent $mainLayout`;
-                string $oMenu = `optionMenu -width 100 -label "Control Shape" -parent $column`;
+    $window = `window -height 175 -title "Create Controls" -width 350 $window`;
+        string $mainLayout = `columnLayout -adjustableColumn true -height 175 -rowSpacing 10`;
+            string $column = `columnLayout -adjustableColumn true -columnAttach "both" 25 -parent $mainLayout -rowSpacing 5`;
+                string $oMenuShape = `optionMenu -label "Control Shape" -parent $column -width 100`;
                     menuItem -label "circle";
                     menuItem -label "square";
                     menuItem -label "flower";
                     menuItem -label "diamond";
-                string $oMenu1 = `colorIndexSliderGrp -maxValue 32 -minValue 1 -parent $column`;
-                string $constrainBox = `checkBox -label "Constrain" -cc "Enable" -parent $column`;
-                string $checkColumn = `columnLayout -adjustableColumn true -columnAttach "both" 50 -rowSpacing 5 -parent $column`;
-                    string $scaleBox = `checkBox -label "Scale" -enable false -visible false -parent $checkColumn`;
-                    string $separateBox = `checkBox -label "Separate Translate and Rotate" -enable false -visible false -parent $checkColumn`;
+                string $color = `colorIndexSliderGrp -maxValue 32 -minValue 1 -parent $column`;
+                string $scaleBox = "Scale";
+                string $separateBox = "Separate";
+                string $constrainBox = "Constrain";
+                $constrainBox = `checkBox -cc ("Enable(\"" + $constrainBox + "\", \"" + $scaleBox + "\", \"" + $separateBox + "\")") -label "Constrain" -parent $column $constrainBox`;//problem here
+                string $checkColumn = `columnLayout -adjustableColumn true -columnAttach "both" 50 -parent $column -rowSpacing 5`;
+                    $scaleBox = `checkBox -enable false -label "Scale" -parent $checkColumn -visible false $scaleBox`;
+                    $separateBox = `checkBox -enable false -label "Separate Translate and Rotate" -parent $checkColumn -visible false $separateBox`;
             string $row = `rowLayout -adjustableColumn true -columnAttach1 "both" -columnOffset1 100 -parent $mainLayout`;
-                string $button = `button -width 100 -height 25 -label "Create" -command "Begin" -parent $row`;
-    showWindow $window;   
+                string $button = `button -height 25 -label "Create" -parent $row -width 100`;
+    showWindow $window;
 }
+
+CreateControlsUI();
