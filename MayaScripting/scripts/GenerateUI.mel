@@ -1,42 +1,17 @@
-global proc vector GetFloatGrpValue(string $floatGrpName)
-{
-    vector $value = `floatFieldGrp -q -v $floatGrpName`;
-    return $value;
-}
+source DupeAndMove;
+source Controls;
+source Rename;
+source GetUIInfo;
 
-global proc int[] GetIntGrpValue(string $intGrpName)
+proc GetDupeMove(string $numDupeName, string $minFloatName, string $maxFloatName)
 {
-    int $value[] = `intFieldGrp -q -v $intGrpName`;
-    return $value;
-}
-
-global proc string GetOptionMenuValue(string $optionMnuName)
-{
-    string $value = `optionMenu -q -v $optionMnuName`;
-    return $value;
-}
-
-global proc int GetCheckBoxValue(string $checkBoxName)
-{
-    int $value = `checkBox -q -v $checkBoxName`;
-    return $value;
-}
-
-global proc string GetTextGrpValue(string $textGrpName)
-{
-    string $value = `textFieldGrp -q -text $textGrpName`;
-    return $value;
-}
-
-global proc GetDupeMove(string $numDupeName, string $minFloatName, string $maxFloatName)
-{
-    int[] $duplicates = GetIntGrpValue($numDupeName);
+    int $duplicates[] = GetIntGrpValue($numDupeName);
     vector $min = GetFloatGrpValue($minFloatName);
     vector $max = GetFloatGrpValue($maxFloatName);
-    print($duplicates[0] + " " + $min + " " + $max);
+    DupeAndMove($duplicates[0], $min, $max);
 }
 
-global proc GenerateUI()
+global proc DupeAndMoveUI()
 {   
     string $mainWindow = "RandomPlacementWindow";
     if(`window -exists $mainWindow`)
@@ -49,8 +24,19 @@ global proc GenerateUI()
             string $myIntGrp = `intFieldGrp -columnWidth2 98 75 -label "Num Duplicates: " -parent $mainColumn`;
             string $minFloatGrp = `floatFieldGrp -columnWidth4 75 75 75 75 -label "Min Range: " -numberOfFields 3 -parent $mainColumn`;
             string $maxFloatGrp = `floatFieldGrp -columnWidth4 75 75 75 75 -label "Max Range: " -numberOfFields 3 -parent $mainColumn`;
-            string $myButton = `button -command ("GetDupeMove(\"" + $myIntGrp + "\", \"" + $minFloatGrp + "\", \"" + $maxFloatGrp + "\")") -label "Generate" -parent $mainColumn`;
+            string $myButton = `button -command 
+            ("GetDupeMove(\"" + $myIntGrp + "\", \"" + $minFloatGrp + "\", \"" + $maxFloatGrp + "\")") 
+            -label "Generate" -parent $mainColumn`;
     showWindow $mainWindow;
+}
+
+proc GetRename(string $prefixName, string $objectName, string $paddingName, string $suffixName)
+{
+    string $prefix = GetOptionMenuValue($prefixName);
+    string $name = GetTextGrpValue($objectName);
+    string $padding = GetOptionMenuValue($paddingName);
+    string $suffix = GetOptionMenuValue($suffixName);
+    RenameSelection($prefix, $name, $padding, $suffix);
 }
 
 global proc RenameUI()
@@ -82,8 +68,21 @@ global proc RenameUI()
                     menuItem -label "none";
             string $row1 = `rowLayout -adjustableColumn true -parent $mainLayout`;
                 string $row2 = `rowLayout -adjustableColumn true -columnAttach1 "both" -columnOffset1 100 -parent $row1`;
-                string $button = `button -height 25 -label "Rename" -parent $row2 -width 100`;
+                string $button = `button -height 25 -label "Rename" -command 
+                ("GetRename(\"" + $oMenuPrefix + "\", \"" + $textGrp + "\", \"" + $oMenuPadding + "\", \"" + $oMenuSuffix + "\")") 
+                -parent $row2 -width 100`;
     showWindow $window;
+}
+
+proc GetControlInfo(string $colorName, string $shapeName, string $constraintName, string $scaleName, string $separateName)
+{
+    int $ctrlColor = GetColorIndexSliderGrpValue($colorName);
+    string $shape = GetOptionMenuValue($shapeName);
+    int $doConstraint = GetCheckBoxValue($constraintName);
+    int $scale = GetCheckBoxValue($scaleName);
+    int $separate = GetCheckBoxValue($separateName);
+
+    CreateControl($ctrlColor, $shape, $doConstraint, $scale, $separate);
 }
 
 proc Enable(string $doConstrain, string $scale, string $separate)
@@ -119,13 +118,32 @@ global proc CreateControlsUI()
                 string $scaleBox = "Scale";
                 string $separateBox = "Separate";
                 string $constrainBox = "Constrain";
-                $constrainBox = `checkBox -cc ("Enable(\"" + $constrainBox + "\", \"" + $scaleBox + "\", \"" + $separateBox + "\")") -label "Constrain" -parent $column $constrainBox`;//problem here
+                $constrainBox = `checkBox -cc ("Enable(\"" + $constrainBox + "\", \"" + $scaleBox + "\", \"" + $separateBox + "\")") 
+                -label "Constrain" -parent $column $constrainBox`;
                 string $checkColumn = `columnLayout -adjustableColumn true -columnAttach "both" 50 -parent $column -rowSpacing 5`;
                     $scaleBox = `checkBox -enable false -label "Scale" -parent $checkColumn -visible false $scaleBox`;
                     $separateBox = `checkBox -enable false -label "Separate Translate and Rotate" -parent $checkColumn -visible false $separateBox`;
             string $row = `rowLayout -adjustableColumn true -columnAttach1 "both" -columnOffset1 100 -parent $mainLayout`;
-                string $button = `button -height 25 -label "Create" -parent $row -width 100`;
+                string $button = `button -height 25 -label "Create Controls"
+                -command ("GetControlInfo(\"" + $color + "\", \"" + $oMenuShape + "\", \"" + $constrainBox + "\", \"" + $scaleBox + "\", \"" + $separateBox + "\")")
+                -parent $row -width 100`;
     showWindow $window;
 }
 
-CreateControlsUI();
+global proc ToolBox()
+{
+    string $window = "Matthew's Toolbox";
+    if(`window -exists $window`)
+    {
+        deleteUI $window;
+    }
+    $window = `window -height 50 -title "Matthew's Toolbox" -width 275 $window`;
+        string $mainLayout = `columnLayout -adjustableColumn true -height 100 -rowSpacing 10 -width 275`;
+            string $column = `columnLayout -adjustableColumn true -columnAttach "both" 25 -parent $mainLayout -rowSpacing 5`;
+                button -command "RenameUI" -height 25 -label "Rename" -parent $column;
+                button -command "CreateControlsUI" -height 25 -label "Controls" -parent $column;
+                button -command "DupeAndMoveUI" -height 25 -label "DupeAndMove" -parent $column;
+    showWindow $window;
+}
+
+ToolBox();

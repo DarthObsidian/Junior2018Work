@@ -14,5 +14,5 @@ global proc DupeAndMove(int $numDupe, vector $minRange, vector $maxRange)
         vector $pos = <<rand(($minRange.x), ($maxRange.x)), rand(($minRange.y), ($maxRange.y)), rand(($minRange.z), ($maxRange.z))>>;        
         move -r ($pos.x) ($pos.y) ($pos.z) $objects;
     }
-    select $currentObj[0];
+    select -cl;
 }

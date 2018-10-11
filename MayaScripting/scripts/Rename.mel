@@ -1,0 +1,42 @@
+global proc string Rename(string $prefix, string $objectName, string $padding, string $suffix, int $num)
+{
+    string $temp = $num;
+    if($padding != "none")
+    {
+        int $size = size($padding) - (size($temp) - 1);
+
+        for($i = 0; $i < $size; $i++)
+        {
+            $temp = "0" + $temp;
+        }
+    }
+    
+    if($prefix == "none" && $suffix == "none")
+    {
+        return $objectName + "_" + $temp;
+    }
+    else if($prefix == "none" && $suffix != "none")
+    {
+        return $objectName + "_" + $temp + "_" + $suffix;
+    }
+    else if($prefix != "none" && $suffix == "none")
+    {
+        return $prefix + "_" + $objectName + "_" + $temp;
+    }
+    else
+    {
+        return $prefix + "_" + $objectName + "_" + $temp + "_" + $suffix;
+    }
+}
+
+global proc RenameSelection(string $prefix, string $objectName, string $padding, string $suffix)
+{
+    string $selections[] = `ls -selection`;
+    int $number = 1;
+    for($objects in $selections)
+    {
+        string $newName = Rename($prefix, $objectName, $padding, $suffix, $number);
+        rename $objects $newName;
+        $number++;
+    }    
+}

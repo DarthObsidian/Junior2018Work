@@ -1,0 +1,35 @@
+global proc vector GetFloatGrpValue(string $floatGrpName)
+{
+    vector $value = `floatFieldGrp -q -v $floatGrpName`;
+    return $value;
+}
+
+global proc int[] GetIntGrpValue(string $intGrpName)
+{
+    int $value[] = `intFieldGrp -q -v $intGrpName`;
+    return $value;
+}
+
+global proc string GetOptionMenuValue(string $optionMnuName)
+{
+    string $value = `optionMenu -q -v $optionMnuName`;
+    return $value;
+}
+
+global proc int GetCheckBoxValue(string $checkBoxName)
+{
+    int $value = `checkBox -q -v $checkBoxName`;
+    return $value;
+}
+
+global proc string GetTextGrpValue(string $textGrpName)
+{
+    string $value = `textFieldGrp -q -text $textGrpName`;
+    return $value;
+}
+
+global proc int GetColorIndexSliderGrpValue(string $color)
+{
+    int $value = `colorIndexSliderGrp -q -v $color`;
+    return $value;
+}
