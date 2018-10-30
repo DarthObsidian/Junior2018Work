@@ -136,4 +136,5 @@ def ToolBox():
     cmds.button(command=DupeAndMoveUI, height=25, label="DupeAndMove", parent=column)
     cmds.showWindow(window)
 
+
 ToolBox()

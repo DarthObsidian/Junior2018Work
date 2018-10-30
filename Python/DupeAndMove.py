@@ -2,14 +2,13 @@ import maya.cmds as cmds
 
 
 def DupeAndMove(numDupe, minRange, maxRange):
-    # type: (object, object, object) -> object
     selections = []
     currentObj = cmds.ls(selection=True)[0]
 
     i = 0
     while i < numDupe:
         temp = cmds.duplicate(currentObj, rr=True)
-        selections[i] = temp[0]
+        selections.append(temp[0])
         i += 1
 
     for objects in selections:
