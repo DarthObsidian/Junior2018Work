@@ -11,11 +11,11 @@ def Rename(prefix, objectName, padding, suffix, num):
             temp = '0' + temp
             i += 1
 
-    if prefix is "none" and suffix is "none":
+    if prefix == "none" and suffix == "none":
         return objectName + "_" + temp
-    elif prefix is "none" and suffix is not "none":
+    elif prefix == "none" and suffix != "none":
         return objectName + "_" + temp + "_" + suffix
-    elif prefix is not "none" and suffix is "none":
+    elif prefix != "none" and suffix == "none":
         return prefix + "_" + objectName + "_" + temp
     else:
         return prefix + "_" + objectName + "_" + temp + "_" + suffix

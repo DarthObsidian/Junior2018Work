@@ -1,4 +1,5 @@
 import maya.cmds as cmds
+import random as rand
 
 
 def DupeAndMove(numDupe, minRange, maxRange):
@@ -12,8 +13,8 @@ def DupeAndMove(numDupe, minRange, maxRange):
         i += 1
 
     for objects in selections:
-        pos = [cmds.rand(minRange[0], maxRange[0]), cmds.rand(minRange[1], maxRange[1]),
-               cmds.rand(minRange[2], maxRange[2])]
-        cmds.move(objects, pos[0], pos[1], pos[2], r=True)
+        pos = [rand.randrange(minRange[0], maxRange[0]), rand.randrange(minRange[1], maxRange[1]),
+               rand.randrange(minRange[2], maxRange[2])]
+        cmds.move(pos[0], pos[1], pos[2], objects, r=True)
 
     cmds.select(cl=True)

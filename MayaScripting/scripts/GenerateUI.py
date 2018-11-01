@@ -4,6 +4,11 @@ import Rename
 import GetUIInfo
 import maya.cmds as cmds
 
+reload(DupeAndMove)
+reload(Controls)
+reload(Rename)
+reload(GetUIInfo)
+
 
 def GetDupeMove(numDupeName, minFloatName, maxFloatName):
     duplicates = GetUIInfo.GetIntGrpValue(numDupeName)
@@ -24,7 +29,8 @@ def DupeAndMoveUI():
                                      parent=mainColumn)
     maxFloatGrp = cmds.floatFieldGrp(columnWidth4=[75, 75, 75, 75], label="Max Range: ", numberOfFields=3,
                                      parent=mainColumn)
-    myButton = cmds.button(command=GetDupeMove(myIntGrp, minFloatGrp, maxFloatGrp), label="Generate", parent=mainColumn)
+    myButton = cmds.button(command=lambda *args: GetDupeMove(myIntGrp, minFloatGrp, maxFloatGrp), label="Generate",
+                           parent=mainColumn)
     cmds.showWindow(mainWindow)
 
 
@@ -67,8 +73,8 @@ def RenameUI():
 
     row1 = cmds.rowLayout(adjustableColumn=True, parent=mainLayout)
     row2 = cmds.rowLayout(adjustableColumn=True, columnAttach1="both", columnOffset1=100, parent=row1)
-    button = cmds.button(height=25, label="Rename", command=GetRename(oMenuPrefix, textGrp, oMenuPadding, oMenuSuffix),
-                parent=row2, width= 100)
+    button = cmds.button(height=25, label="Rename", command=lambda *args: GetRename(oMenuPrefix, textGrp, oMenuPadding,
+                         oMenuSuffix), parent=row2, width=100)
     cmds.showWindow(window)
 
 
@@ -108,33 +114,31 @@ def CreateControlsUI():
 
     color = cmds.colorIndexSliderGrp(maxValue=32, minValue=1, parent=column)
     scaleBox = "Scale"
-    separateBox = "Separate";
-    constrainBox = "Constrain";
-    constrainBox = cmds.checkBox(constrainBox, cc=Enable(constrainBox, scaleBox, separateBox), label="Constrain",
+    separateBox = "Separate"
+    constrainBox = "Constrain"
+    constrainBox = cmds.checkBox(constrainBox, cc=lambda *args: Enable(constrainBox, scaleBox, separateBox), label="Constrain",
                         parent=column)
     checkColumn = cmds.columnLayout(adjustableColumn=True, columnAttach=["both", 50], parent=column, rowSpacing=5)
     scaleBox = cmds.checkBox(scaleBox, enable=False, label="Scale", parent=checkColumn, visible=False)
     separateBox = cmds.checkBox(separateBox, enable=False, label="Separate Translate and Rotate", parent=checkColumn,
                         visible=False)
     row = cmds.rowLayout(adjustableColumn=True, columnAttach1="both", columnOffset1=100, parent=mainLayout)
-    button = cmds.button(height=25, label="Create Controls", command=GetControlInfo(color, oMenuShape, constrainBox,
-                        scaleBox, separateBox), parent=row,
-                        width=100)
+    button = cmds.button(height=25, label="Create Controls", command=lambda *args: GetControlInfo(color, oMenuShape,
+                         constrainBox, scaleBox, separateBox), parent=row, width=100)
     cmds.showWindow(window)
 
 
 def ToolBox():
-    window = "Matthew's Toolbox"
+    window = "MatthewsToolbox"
     if cmds.window(window, exists=True):
         cmds.deleteUI(window)
 
     window = cmds.window(window, height=50, title="Matthew's Toolbox", width=275)
     mainLayout = cmds.columnLayout(adjustableColumn=True, height=100, rowSpacing=10, width=275)
     column = cmds.columnLayout(adjustableColumn=True, columnAttach=["both", 25], parent=mainLayout, rowSpacing=5)
-    cmds.button(command=RenameUI, height=25, label="Rename", parent=column)
-    cmds.button(command=CreateControlsUI, height=25, label="Controls", parent=column)
-    cmds.button(command=DupeAndMoveUI, height=25, label="DupeAndMove", parent=column)
+    cmds.button(command=lambda *args: RenameUI(), height=25, label="Rename", parent=column)
+    cmds.button(command=lambda *args: CreateControlsUI(), height=25, label="Controls", parent=column)
+    cmds.button(command=lambda *args: DupeAndMoveUI(), height=25, label="DupeAndMove", parent=column)
     cmds.showWindow(window)
 
-
-ToolBox()
+#lambda function
