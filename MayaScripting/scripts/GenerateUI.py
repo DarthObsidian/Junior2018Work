@@ -2,12 +2,14 @@ import DupeAndMove
 import Controls
 import Rename
 import GetUIInfo
+import Locator
 import maya.cmds as cmds
 
 reload(DupeAndMove)
 reload(Controls)
 reload(Rename)
 reload(GetUIInfo)
+reload(Locator)
 
 
 def GetDupeMove(numDupeName, minFloatName, maxFloatName):
@@ -128,17 +130,29 @@ def CreateControlsUI():
     cmds.showWindow(window)
 
 
+def LocatorUI():
+    window = "ControlsWindow"
+    if cmds.window(window, exists=True):
+        cmds.deleteUI(window)
+
+    window = cmds.window(window, height=175, title="Create Locator at Center", width=350)
+    mainLayout = cmds.columnLayout(adjustableColumn=True, height=100, rowSpacing=10, width=275)
+    column = cmds.columnLayout(adjustableColumn=True, columnAttach=["both", 25], parent=mainLayout, rowSpacing=5)
+    cmds.button(command=lambda *args: Locator.CreateLoc(1), height=25, label='Rotated Pivot', parent=column)
+    cmds.button(command=lambda *args: Locator.CreateLoc(2), height=25, label='Center Pivot', parent=column)
+    cmds.showWindow(window)
+
+
 def ToolBox():
     window = "MatthewsToolbox"
     if cmds.window(window, exists=True):
         cmds.deleteUI(window)
 
     window = cmds.window(window, height=50, title="Matthew's Toolbox", width=275)
-    mainLayout = cmds.columnLayout(adjustableColumn=True, height=100, rowSpacing=10, width=275)
+    mainLayout = cmds.columnLayout(adjustableColumn=True, height=150, rowSpacing=10, width=275)
     column = cmds.columnLayout(adjustableColumn=True, columnAttach=["both", 25], parent=mainLayout, rowSpacing=5)
     cmds.button(command=lambda *args: RenameUI(), height=25, label="Rename", parent=column)
     cmds.button(command=lambda *args: CreateControlsUI(), height=25, label="Controls", parent=column)
     cmds.button(command=lambda *args: DupeAndMoveUI(), height=25, label="DupeAndMove", parent=column)
+    cmds.button(command=lambda *args: LocatorUI(), height=25, label='Locator', parent=column)
     cmds.showWindow(window)
-
-#lambda function
