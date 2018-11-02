@@ -33,6 +33,8 @@ def CreateLoc(option=1):
 
     elif option == 2:
         for sel in sels:
-            pivot = cmds.xform(sel, q=True, rp=True, ws=True)
+            pivot = cmds.xform(sel, q=True, t=True, ws=True)
+            rot = cmds.xform(sel, q=True, ro=True, ws=True)
             loc = cmds.spaceLocator()[0]
             cmds.xform(loc, t=pivot, ws=True)
+            cmds.xform(loc, ro=rot, ws=True)

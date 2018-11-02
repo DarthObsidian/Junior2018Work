@@ -4,3 +4,5 @@ if 'C:/Users/10796568/Documents/Repositories/Junior2018Work/MayaScripting/script
 
 for p in sys.path:
     print p
+
+# D:/Documents/UVU/Junior2018Work/MayaScripting/scripts

@@ -12,11 +12,11 @@
     <session id="-432723070">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="4" />
+          <entry key="project.closed" value="5" />
           <entry key="project.open.time.2" value="1" />
-          <entry key="project.open.time.5" value="3" />
+          <entry key="project.open.time.5" value="4" />
           <entry key="project.open.time.6" value="1" />
-          <entry key="project.opened" value="5" />
+          <entry key="project.opened" value="6" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -31,12 +31,12 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="py" value="6329" />
+          <entry key="py" value="6577" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Python" value="6329" />
+          <entry key="Python" value="6577" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.js.language.service.starts" />
@@ -50,11 +50,11 @@
           <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../MayaScripting/scripts/CreateJnts.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="170">
-              <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
+              <caret line="10" selection-start-line="10" selection-end-line="10" />
               <folding>
                 <marker date="1541122496058" expanded="true" signature="46:51" ph="..." />
               </folding>
@@ -64,7 +64,11 @@
       </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../MayaScripting/scripts/Add path.py">
-          <provider selected="true" editor-type-id="text-editor" />
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret selection-end-line="8" />
+            </state>
+          </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
@@ -81,11 +85,11 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../MayaScripting/scripts/GenerateUI.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="721">
-              <caret line="155" column="101" lean-forward="true" selection-start-line="155" selection-start-column="101" selection-end-line="155" selection-end-column="101" />
+            <state relative-caret-position="619">
+              <caret line="146" lean-forward="true" selection-start-line="146" selection-end-line="146" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
-                <marker date="1541120959359" expanded="true" signature="5868:6518" ph="..." />
+                <marker date="1541123045859" expanded="true" signature="5905:6555" ph="..." />
               </folding>
             </state>
           </provider>
@@ -96,13 +100,13 @@
           <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/../MayaScripting/scripts/Locator.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="595">
-              <caret line="35" column="61" lean-forward="true" selection-start-line="35" selection-start-column="61" selection-end-line="35" selection-end-column="61" />
+            <state relative-caret-position="578">
+              <caret line="34" column="24" lean-forward="true" selection-start-line="34" selection-start-column="24" selection-end-line="34" selection-end-column="24" />
               <folding>
-                <marker date="1541121007524" expanded="true" signature="158:174" ph="..." />
+                <marker date="1541123638127" expanded="true" signature="158:174" ph="..." />
               </folding>
             </state>
           </provider>
@@ -136,10 +140,11 @@
         <option value="$PROJECT_DIR$/GetUIInfo.py" />
         <option value="$PROJECT_DIR$/Controls.py" />
         <option value="$PROJECT_DIR$/DupeAndMove.py" />
-        <option value="$PROJECT_DIR$/../MayaScripting/scripts/GenerateUI.py" />
-        <option value="$PROJECT_DIR$/../MayaScripting/scripts/Locator.py" />
         <option value="$PROJECT_DIR$/../MayaScripting/scripts/ParentSels.py" />
         <option value="$PROJECT_DIR$/../MayaScripting/scripts/CreateJnts.py" />
+        <option value="$PROJECT_DIR$/../MayaScripting/scripts/GenerateUI.py" />
+        <option value="$PROJECT_DIR$/../MayaScripting/scripts/Add path.py" />
+        <option value="$PROJECT_DIR$/../MayaScripting/scripts/Locator.py" />
       </list>
     </option>
   </component>
@@ -160,7 +165,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -172,6 +176,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -207,7 +212,7 @@
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2553305" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25799572" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -244,36 +249,6 @@
     <entry file="file://$PROJECT_DIR$/Controls.py" />
     <entry file="file://$PROJECT_DIR$/Rename.py" />
     <entry file="file://$PROJECT_DIR$/DupeAndMove.py" />
-    <entry file="file://$PROJECT_DIR$/../MayaScripting/scripts/Add path.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../MayaScripting/scripts/GetUIInfo.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../MayaScripting/scripts/Rename.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../MayaScripting/scripts/Locator.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="595">
-          <caret line="35" column="61" lean-forward="true" selection-start-line="35" selection-start-column="61" selection-end-line="35" selection-end-column="61" />
-          <folding>
-            <marker date="1541121007524" expanded="true" signature="158:174" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../MayaScripting/scripts/GenerateUI.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="721">
-          <caret line="155" column="101" lean-forward="true" selection-start-line="155" selection-start-column="101" selection-end-line="155" selection-end-column="101" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-            <marker date="1541120959359" expanded="true" signature="5868:6518" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Biplane.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="840">
@@ -281,14 +256,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../MayaScripting/scripts/ParentSels.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="16" lean-forward="true" selection-start-line="3" selection-start-column="16" selection-end-line="3" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/../MayaScripting/scripts/ParentSels.py" />
     <entry file="file://$PROJECT_DIR$/../MayaScripting/scripts/Controls.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../MayaScripting/scripts/Rename.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/../MayaScripting/scripts/DupeAndMove.py">
@@ -300,12 +272,43 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/../MayaScripting/scripts/GetUIInfo.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../MayaScripting/scripts/GenerateUI.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="619">
+          <caret line="146" lean-forward="true" selection-start-line="146" selection-end-line="146" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+            <marker date="1541123045859" expanded="true" signature="5905:6555" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/../MayaScripting/scripts/CreateJnts.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
-          <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
+          <caret line="10" selection-start-line="10" selection-end-line="10" />
           <folding>
             <marker date="1541122496058" expanded="true" signature="46:51" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../MayaScripting/scripts/Add path.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret selection-end-line="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../MayaScripting/scripts/Locator.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="578">
+          <caret line="34" column="24" lean-forward="true" selection-start-line="34" selection-start-column="24" selection-end-line="34" selection-end-column="24" />
+          <folding>
+            <marker date="1541123638127" expanded="true" signature="158:174" ph="..." />
           </folding>
         </state>
       </provider>
