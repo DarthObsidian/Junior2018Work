@@ -1,8 +1,8 @@
 import maya.cmds as cmds
 
 
-# gets the minimum transform value from a list of objects, requires specific direction: x=0, y=1, z=2
 def FindMin(sels, direction):
+    ''' gets the minimum transform value from a list of objects, requires specific direction: x=0, y=1, z=2 '''
     minValue = cmds.xform(sels[0], q=True, t=True, ws=True)[direction]
     for sel in sels:
         if cmds.xform(sel, q=True, t=True, ws=True)[direction] <= minValue:
@@ -10,8 +10,8 @@ def FindMin(sels, direction):
     return minValue
 
 
-# gets the maximum transform value from a list of objects, requires specific direction: x=0, y=1, z=2
 def FindMax(sels, direction):
+    ''' gets the maximum transform value from a list of objects, requires specific direction: x=0, y=1, z=2 '''
     maxValue = cmds.xform(sels[0], q=True, t=True, ws=True)[direction]
     for sel in sels:
         if cmds.xform(sel, q=True, t=True, ws=True)[direction] >= maxValue:
@@ -20,6 +20,7 @@ def FindMax(sels, direction):
 
 
 def CreateLoc(option=1):
+    ''' Creates a locator at the center of selection, or the pivot of each object, defaults to former '''
     sels = cmds.ls(sl=True)
 
     if option == 1:

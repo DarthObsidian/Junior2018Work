@@ -2,6 +2,7 @@ import maya.cmds as cmds
 
 
 def Rename(prefix, objectName, padding, suffix, num):
+    ''' Renames an object to user specified name '''
     temp = str(num)
     if padding is not "none":
         size = len(padding) - (len(temp) - 1)
@@ -22,6 +23,7 @@ def Rename(prefix, objectName, padding, suffix, num):
 
 
 def RenameSelection(prefix, objectName, padding, suffix):
+    ''' Sequentially renames a selection of objects '''
     selections = cmds.ls(selection=True)
     number = 1
     for objects in selections:

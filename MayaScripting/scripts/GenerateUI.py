@@ -15,6 +15,7 @@ reload(CreateJnts)
 
 
 def GetDupeMove(numDupeName, minFloatName, maxFloatName):
+    ''' Gets the user input from the random placement UI and sends it to DupeAndMove script '''
     duplicates = GetUIInfo.GetIntGrpValue(numDupeName)
     mini = GetUIInfo.GetFloatGrpValue(minFloatName)
     maxi = GetUIInfo.GetFloatGrpValue(maxFloatName)
@@ -22,6 +23,7 @@ def GetDupeMove(numDupeName, minFloatName, maxFloatName):
 
 
 def DupeAndMoveUI():
+    ''' Creates the UI for the random placement and duplication '''
     mainWindow = "RandomPlacementWindow"
     if cmds.window(mainWindow, exists=True):
         cmds.deleteUI(mainWindow)
@@ -39,6 +41,7 @@ def DupeAndMoveUI():
 
 
 def GetRename(prefixName, objectName, paddingName, suffixName):
+    ''' Gets the user input from the rename UI and sends it to the Rename script '''
     prefix = GetUIInfo.GetOptionMenuValue(prefixName)
     name = GetUIInfo.GetTextGrpValue(objectName)
     padding = GetUIInfo.GetOptionMenuValue(paddingName)
@@ -47,6 +50,7 @@ def GetRename(prefixName, objectName, paddingName, suffixName):
 
 
 def RenameUI():
+    ''' Creates the UI for the renamer '''
     window = "RenameWindow"
     if cmds.window(window, exists=True):
         cmds.deleteUI(window)
@@ -83,6 +87,7 @@ def RenameUI():
 
 
 def GetControlInfo(colorName, shapeName, constraintName, scaleName, separateName):
+    ''' Gets user input from the control UI and sends it to the Controls script '''
     ctrlColor = GetUIInfo.GetColorIndexSliderGrpValue(colorName)
     shape = GetUIInfo.GetOptionMenuValue(shapeName)
     doConstraint = GetUIInfo.GetCheckBoxValue(constraintName)
@@ -93,6 +98,7 @@ def GetControlInfo(colorName, shapeName, constraintName, scaleName, separateName
 
 
 def Enable(doConstrain, scale, separate):
+    ''' Enables or disables constraint checkboxes based on user input '''
     if not cmds.checkBox(doConstrain, query=True, v=True):
         cmds.checkBox(scale, e=True, enable=False, visible=False)
         cmds.checkBox(separate, e=True, enable=False, visible=False)
@@ -102,6 +108,7 @@ def Enable(doConstrain, scale, separate):
 
 
 def CreateControlsUI():
+    ''' Creates the UI for control creation '''
     window = "ControlsWindow"
     if cmds.window(window, exists=True):
         cmds.deleteUI(window)
@@ -120,8 +127,8 @@ def CreateControlsUI():
     scaleBox = "Scale"
     separateBox = "Separate"
     constrainBox = "Constrain"
-    constrainBox = cmds.checkBox(constrainBox, cc=lambda *args: Enable(constrainBox, scaleBox, separateBox), label="Constrain",
-                        parent=column)
+    constrainBox = cmds.checkBox(constrainBox, cc=lambda *args: Enable(constrainBox, scaleBox, separateBox),
+                        label="Constrain", parent=column)
     checkColumn = cmds.columnLayout(adjustableColumn=True, columnAttach=["both", 50], parent=column, rowSpacing=5)
     scaleBox = cmds.checkBox(scaleBox, enable=False, label="Scale", parent=checkColumn, visible=False)
     separateBox = cmds.checkBox(separateBox, enable=False, label="Separate Translate and Rotate", parent=checkColumn,
@@ -133,6 +140,7 @@ def CreateControlsUI():
 
 
 def LocatorUI():
+    ''' Creates UI for locator placement '''
     window = "ControlsWindow"
     if cmds.window(window, exists=True):
         cmds.deleteUI(window)
@@ -146,6 +154,7 @@ def LocatorUI():
 
 
 def ToolBox():
+    ''' Creates UI for access to Matthew's Toolbox '''
     window = "MatthewsToolbox"
     if cmds.window(window, exists=True):
         cmds.deleteUI(window)

@@ -2,6 +2,7 @@ import maya.cmds as cmds
 
 
 def CreateJoints():
+    ''' Creates joints at selected objects positions in the order those objects were selected '''
     sels = cmds.ls(sl=True)
     cmds.select(cl=True)
 

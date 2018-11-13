@@ -2,6 +2,7 @@ import maya.cmds as cmds
 
 
 def ColorControls(ctrlName, color):
+    ''' Changes the color of a specified nurbsCurve using indexes '''
     shapes = cmds.listRelatives(ctrlName, shapes=True)
 
     for shape in shapes:
@@ -14,6 +15,7 @@ def ColorControls(ctrlName, color):
 
 
 def CreateCtrlShape(shape):
+    ''' Changes the look of the generated nurbesCurve based on input '''
     ctrl = None
 
     if shape == "circle":
@@ -44,6 +46,7 @@ def CreateCtrlShape(shape):
 
 
 def Constrain(constrainer, constrainee, doConstraint, scale, separate):
+    ''' Contrains two specified objects together, parent(can be separated between scale and translate, and/or scale '''
     if doConstraint:
         cmds.select(constrainer, r=True)
         cmds.select(constrainee, tgl=True)
@@ -58,6 +61,7 @@ def Constrain(constrainer, constrainee, doConstraint, scale, separate):
 
 
 def CreateControl(ctrlColor, shape, doConstraint, scale, separate):
+    ''' If objects are selected, creates and moves controls to those objects, otherwise creates a control at origin '''
     sels = cmds.ls(sl=True)
 
     if len(sels) > 0:

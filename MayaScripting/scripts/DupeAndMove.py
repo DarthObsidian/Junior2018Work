@@ -3,6 +3,7 @@ import random as rand
 
 
 def DupeAndMove(numDupe, minRange, maxRange):
+    ''' Takes a selection and duplicates it and moves the duplicates to random places based on a given range '''
     selections = []
     currentObj = cmds.ls(selection=True)[0]
 
