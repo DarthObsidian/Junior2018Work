@@ -7,22 +7,47 @@ def Skin():
     cmds.select(cl=True)
     curves = []
     jnts = []
+    skin = []
+    masterJnts = []
 
     # gets the total number of curves in the selection
     for obj in sel:
         if cmds.nodeType((cmds.listRelatives(obj, shapes=True))) == 'nurbsCurve':
             curves.append(obj)
+        else:
+            skin.append(obj)
 
     # creates joints around each cv and the center of the curve
     for crv in curves:
-        jnts = CreateJoint(0, crv, jnts)
-        cv = cmds.getAttr(crv + '.spans')
+        masterJnts = CreateJoint(0, crv, masterJnts)
+        cv = len(cmds.ls(crv + '.cv[0:]', fl=True))
         jnts = CreateJoint(cv, crv, jnts)
 
     # unparents all the joints
-    for obj in jnts:
+    allJnts = jnts + masterJnts
+    for obj in allJnts:
         if cmds.listRelatives(obj, parent=True) is not None:
             cmds.parent(obj, w=True)
+
+    # skins the object
+    cmds.skinCluster((jnts + skin))
+    verts = cmds.ls(skin[0] + '.vtx[0: ]', fl=True)
+
+    for crv in curves:
+        cvs = cmds.ls(crv + '.cv[0: ]', fl=True)
+
+        i = 0
+        for cv in cvs:
+            pos = cmds.pointPosition(cv, w=True)
+            cmds.move((pos[0] - 1), pos[1], pos[2], cv, ls=True)
+
+            for vert in verts:
+                vPos1 = cmds.pointPosition(vert, w=True)[0]
+                cmds.move(pos[0], pos[1], pos[2], cv, ls=True)
+                vPos2 = cmds.pointPosition(vert, w=True)[0]
+                skinWeight = vPos1 - vPos2
+                cmds.skinCluster(vert, e=True, influence=jnts[i], weight=skinWeight)
+            i += 1
 
 
 def CreateJoint(length, obj, jnts):
