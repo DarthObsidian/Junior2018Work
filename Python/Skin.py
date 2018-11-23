@@ -30,24 +30,46 @@ def Skin():
             cmds.parent(obj, w=True)
 
     # skins the object
-    cmds.skinCluster((jnts + skin))
+    cmds.skinCluster((allJnts + skin))
     verts = cmds.ls(skin[0] + '.vtx[0: ]', fl=True)
+    sCluster = cmds.listConnections(cmds.listRelatives(skin, shapes=True)[0], t='skinCluster')[0]
 
+    x = 0
+    i = 0
     for crv in curves:
         cvs = cmds.ls(crv + '.cv[0: ]', fl=True)
+        cmds.skinPercent(sCluster, skin, transformValue=[masterJnts[x], 1])
 
-        i = 0
+        # locks joints
+        for jnt in jnts:
+            cmds.skinCluster(skin, e=True, influence=jnt, lockWeights=True)
+
+        # sets the weight for each vert
         for cv in cvs:
             pos = cmds.pointPosition(cv, w=True)
-            cmds.move((pos[0] - 1), pos[1], pos[2], cv, ls=True)
 
             for vert in verts:
-                vPos1 = cmds.pointPosition(vert, w=True)[0]
-                cmds.move(pos[0], pos[1], pos[2], cv, ls=True)
-                vPos2 = cmds.pointPosition(vert, w=True)[0]
-                skinWeight = vPos1 - vPos2
-                cmds.skinCluster(vert, e=True, influence=jnts[i], weight=skinWeight)
+                # finds the skin weight by moving the vert
+                cmds.move((pos[0] - 1), pos[1], pos[2], cv, ws=True)
+                vPos1 = cmds.pointPosition(vert, w=True)
+                cmds.move(pos[0], pos[1], pos[2], cv, ws=True)
+                vPos2 = cmds.pointPosition(vert, w=True)
+                skinWeight = vPos1[0] - vPos2[0]
+                skinWeight = abs(skinWeight)
+                if skinWeight > 1:
+                    skinWeight = 1.0
+
+                # edits the skin weight
+                cmds.skinCluster(skin, e=True, influence=jnts[i], lw=False)
+                mWeight = (cmds.skinPercent(sCluster, vert, transform=masterJnts[x], q=True)) - skinWeight
+                if mWeight < 0.000001:
+                    mWeight = 0.0
+
+                cmds.skinPercent(sCluster, vert, transformValue=[masterJnts[x], mWeight])
+                cmds.skinPercent(sCluster, vert, transformValue=[jnts[i], skinWeight])
+                cmds.skinCluster(skin, e=True, influence=jnts[i], lw=True)
             i += 1
+        x += 1
 
 
 def CreateJoint(length, obj, jnts):

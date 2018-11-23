@@ -6,6 +6,7 @@ def Transfer():
 
     curves = []
     joints = []
+    wires = []
 
     for obj in sel:
         if cmds.nodeType(cmds.listRelatives(obj, shapes=True)) == 'nurbsCurve':
@@ -17,13 +18,17 @@ def Transfer():
 
     verts = cmds.ls(object + '.vtx[0: ]', fl=True)
     clusters = cmds.listConnections(cmds.listRelatives(object, shapes=True)[0], t='skinCluster')[0]
-    wire1 = cmds.wire(object, dds=[1, 999999999], w=curves[0])
-    wire2 = cmds.wire(object, dds=[2, 999999999], w=curves[1])
 
-    for vert in verts:
-        skinWeight = cmds.skinPercent(clusters, vert, q=True, value=True)
-        cmds.wire(vert, e=True, li=skinWeight[0], w=wire1[1])
-        cmds.wire(vert, e=True, li=skinWeight[1], w=wire2[1])
+    i = 1
+    for curve in curves:
+        wires.append(cmds.wire(object, dds=[i, 999999999], w=curve)[0])
+
+    i = 0
+    for jnt in joints:
+        for vert in verts:
+            skinWeight = cmds.skinPercent(clusters, vert, transform=jnt, q=True, value=True)
+            cmds.percent(wires[i], vert, v=skinWeight)
+        i += 1
 
 
 Transfer()
