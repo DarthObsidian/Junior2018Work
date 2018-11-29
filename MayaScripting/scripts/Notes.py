@@ -32,7 +32,7 @@
 
 # class LocatorWindow:
 #     def __init__(self):
-#         self.mWin = 'LocWindow'
+#         self.mWin = 'LocWindow' (if you don't have anything to define write pass
 
 #     def create(self):
 #         self.delUI()
@@ -49,3 +49,13 @@
 #     def delUI(self):
 #         if cmds.window(self.mWin, exists=True):
 #             cmds.deleteUI(self.mWin)
+
+# To use a parent's constructor:
+# def __init__(self, name):
+#     super(ChildClass, self).__init__(name)
+
+# %s tells python that you are going to insert a string
+# %i tells python that you are going to insert an integer
+# 'My name is %s and I'm %i years old.' %(name, age)
+# %03d pads a float with 0s so it is three characters long
+# zfill python command also lets you pad things
