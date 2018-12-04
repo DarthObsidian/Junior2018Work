@@ -1,30 +1,28 @@
 import maya.cmds as cmds
 import Window
-
 reload(Window)
 
 
-
-
-
-
-
-class ToolBox(Window):
+class ToolBox(Window.Window):
     ''' Creates UI for access to Matthew's Toolbox '''
     def __init__(self, name='mmToolbox'):
-        super(ToolBox, self).__init__(name)
+        Window.Window.__init__(self, name)
 
     def CreateUI(self):
         self.DelUI()
 
         self.mWin = cmds.window(self.mWin, height=50, title="mmToolbox", width=275)
-        self.mLayout = cmds.columnLayout(adjustableColumn=True, height=200, rowSpacing=10, width=275)
+        self.mLayout = cmds.columnLayout(adjustableColumn=True, height=300, rowSpacing=10, width=275)
         column = cmds.columnLayout(adjustableColumn=True, columnAttach=["both", 25], parent=self.mLayout, rowSpacing=5)
         cmds.button(command=lambda *args: self.RenameTool(), height=25, label="Rename", parent=column)
         cmds.button(command=lambda *args: self.ControlsTool(), height=25, label="Controls", parent=column)
-        cmds.button(command=lambda *args: self.RandomTool(), height=25, label="DupeAndMove", parent=column)
+        cmds.button(command=lambda *args: self.RandomTool(), height=25, label="Rand Placement", parent=column)
         cmds.button(command=lambda *args: self.LocatorTool(), height=25, label='Locator', parent=column)
-        cmds.button(command=lambda *args: self.JointsTool(), height=25, label='Jnts', parent=column)
+        cmds.button(command=lambda *args: self.JointsTool(), height=25, label='Joints', parent=column)
+        cmds.button(command=lambda *args: self.StretchyIKTool(), height=25, label='StretchyIK', parent=column)
+        cmds.button(command=lambda *args: self.SkinToWire(), height=25, label='SkinToWire', parent=column)
+        cmds.button(command=lambda *args: self.WireToSkin(), height=25, label='WireToSkin', parent=column)
+
         cmds.showWindow(self.mWin)
 
     def RenameTool(self):
@@ -40,9 +38,9 @@ class ToolBox(Window):
         controlsTool.CreateUI()
 
     def RandomTool(self):
-        import DupeAndMove
-        reload(DupeAndMove)
-        randomTool = DupeAndMove.DupeAndMove()
+        import RandomPlacement
+        reload(RandomPlacement)
+        randomTool = RandomPlacement.RandomPlacement()
         randomTool.CreateUI()
 
     def LocatorTool(self):
@@ -54,5 +52,23 @@ class ToolBox(Window):
     def JointsTool(self):
         import CreateJnts
         reload(CreateJnts)
-        jointsTool = CreateJnts.CreateJnts()
+        jointsTool = CreateJnts.CreateJoints()
         jointsTool.CreateUI()
+
+    def StretchyIKTool(self):
+        import StretchyIK
+        reload(StretchyIK)
+        stretchyTool = StretchyIK.StretchyIK()
+        stretchyTool.CreateUI()
+
+    def SkinToWire(self):
+        import SkinToWire
+        reload(SkinToWire)
+        skinToWireTool = SkinToWire.SkinToWire()
+        skinToWireTool.CreateUI()
+
+    def WireToSkin(self):
+        import WireToSkin
+        reload(WireToSkin)
+        wireToSkin = WireToSkin.WireToSkin()
+        wireToSkin.CreateUI()

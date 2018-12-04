@@ -3,12 +3,12 @@ import Window
 reload(Window)
 
 
-class Controls(Window):
+class Controls(Window.Window):
     def __init__(self, name='Control Window'):
-        super(Controls, self).__init__(name)
+        Window.Window.__init__(self, name)
 
     def CreateUI(self):
-        ''' Creates the UI for control creation '''
+        ''' Creates a UI for this tool '''
         self.DelUI()
 
         self.mWin = cmds.window(self.mWin, height=175, title="Create Controls", width=350)
@@ -34,11 +34,12 @@ class Controls(Window):
         row = cmds.rowLayout(adjustableColumn=True, columnAttach1="both", columnOffset1=100, parent=self.mLayout)
         cmds.button(height=25, label="Create Controls", command=lambda *args: self.GetControlInfo(color,
                     self.oMenuShape, constrainBox, scaleBox, separateBox), parent=row, width=100)
+
         cmds.showWindow(self.mWin)
 
     def GetControlInfo(self, colorName, shapeName, constraintName, scaleName, separateName):
         ''' Gets user input from the control UI and sends it to the Controls script '''
-        ctrlColor = self.GetColorIndexSliderGrpValue(colorName)
+        ctrlColor = self.GetColorIndexSliderGrpValue(colorName) - 1
         shape = self.GetOptionMenuValue(shapeName)
         doConstraint = self.GetCheckBoxValue(constraintName)
         scale = self.GetCheckBoxValue(scaleName)

@@ -3,20 +3,21 @@ import Window
 reload(Window)
 
 
-class Rename(Window):
+class Rename(Window.Window):
     def __init__(self, name='Rename Window'):
-        super(Rename, self).__init__(name)
+        Window.Window.__init__(self, name)
 
     def CreateUI(self):
-        ''' Creates the UI for the renamer '''
+        ''' Creates a UI for this tool '''
+        self.DelUI()
 
         window = cmds.window(self.mWin, height=150, title="Rename Objects", width=300)
         self.mLayout = cmds.columnLayout(adjustableColumn=True, height=150, parent=window, rowSpacing=10)
         column = cmds.columnLayout(adjustableColumn=True, columnAttach=["both", 25], parent=self.mLayout,
                                    rowSpacing=5)
         self.textGrp = cmds.textFieldGrp(adjustableColumn=True, columnAlign=[1, "left"], columnWidth=[2, 100],
-                                    label="Name: ",
-                                    parent=column)
+                                         label="Name: ", parent=column)
+
         self.oMenuPrefix = cmds.optionMenu(label="Prefix", parent=column, width=100)
         cmds.menuItem(label="R", parent=self.oMenuPrefix)
         cmds.menuItem(label="L", parent=self.oMenuPrefix)
@@ -40,6 +41,7 @@ class Rename(Window):
         self.row2 = cmds.rowLayout(adjustableColumn=True, columnAttach1="both", columnOffset1=100, parent=self.row1)
         cmds.button(height=25, label="Rename", command=lambda *args: self.GetRename(self.oMenuPrefix, self.textGrp,
                     self.oMenuPadding, self.oMenuSuffix), parent=self.row2, width=100)
+
         cmds.showWindow(window)
 
     def GetRename(self, prefixName, objectName, paddingName, suffixName):

@@ -17,7 +17,7 @@ class Window:
 
     def DelUI(self):
         ''' Checks if a UI exists and if so, deletes it '''
-        if cmds.window(self.mWin, exists=True):
+        if cmds.window(self.mWin, q=True, exists=True):
             cmds.deleteUI(self.mWin)
 
     def GetFloatGrpValue(self, floatGrpName):
