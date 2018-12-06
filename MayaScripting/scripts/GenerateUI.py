@@ -20,8 +20,8 @@ class ToolBox(Window.Window):
         cmds.button(command=lambda *args: self.LocatorTool(), height=25, label='Locator', parent=column)
         cmds.button(command=lambda *args: self.JointsTool(), height=25, label='Joints', parent=column)
         cmds.button(command=lambda *args: self.StretchyIKTool(), height=25, label='StretchyIK', parent=column)
-        cmds.button(command=lambda *args: self.SkinToWire(), height=25, label='SkinToWire', parent=column)
         cmds.button(command=lambda *args: self.WireToSkin(), height=25, label='WireToSkin', parent=column)
+        cmds.button(command=lambda *args: self.SkinToWire(), height=25, label='SkinToWire', parent=column)
 
         cmds.showWindow(self.mWin)
 
@@ -61,14 +61,14 @@ class ToolBox(Window.Window):
         stretchyTool = StretchyIK.StretchyIK()
         stretchyTool.CreateUI()
 
+    def WireToSkin(self):
+        import WireToSkin
+        reload(WireToSkin)
+        wireToSkinTool = WireToSkin.WireToSkin()
+        wireToSkinTool.CreateUI()
+
     def SkinToWire(self):
         import SkinToWire
         reload(SkinToWire)
         skinToWireTool = SkinToWire.SkinToWire()
         skinToWireTool.CreateUI()
-
-    def WireToSkin(self):
-        import WireToSkin
-        reload(WireToSkin)
-        wireToSkin = WireToSkin.WireToSkin()
-        wireToSkin.CreateUI()
